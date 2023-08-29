@@ -1,15 +1,23 @@
 from django.shortcuts import render
 import requests
 from .models import City
+from .forms import CityForm
 
 def index(request):
     cities_names = City.objects.all()
     all_cities_names = []
+
+    if request.method == 'POST':
+        form = CityForm(request.POST)
+        form.save()
+
+    form = CityForm()
+
     for city_name in cities_names:
         API_key = '3282ec1d46e5008d2addb00cc147282b'
         url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name.name}&units=Metric&appid={API_key}'
         response = requests.get(url).json()     #requests.get(url.format(city_name.name)).json()
-        print(url)
+        # print(url)
         city_info = {
             'city_name': city_name.name,
             'temp_now': response['main']['temp'],
@@ -22,7 +30,8 @@ def index(request):
         all_cities_names.append(city_info)
 
     context = {
-        'all_city_info': all_cities_names
+        'all_city_info': all_cities_names,
+        'form': form
     }
 
     return render(request, 'weather/index.html', context)
