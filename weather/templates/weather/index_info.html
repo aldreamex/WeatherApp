@@ -13,10 +13,11 @@
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-3 mb-3 bg-white border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-bold text-black" style="font-size: 20px;">WeatherApp</h5>
             <nav class="d-inline-flex mt-2 mt-md-7 ms-md-auto">
-                <a class="custom-glow-on-hover btn me-2 py-3 mt-md-2 text-black " href="/">Home</a>
-                <a class="custom-glow-on-hover btn me-2 py-3 mt-md-2 text-black" href="#">About the developer</a>
+                <a class="custom-glow-on-hover btn me-2 py-3 mt-md-2 text-black" href="/">Home</a>
+                <a class="custom-glow-on-hover btn me-2 py-3 mt-md-2 text-black" href="{% url 'about' %}">About the developer</a>
                 <a class="custom-glow-on-hover btn me-2 py-3 mt-md-2 text-black" href="{% url 'information' %}">Information</a>
-                <a class="custom-glow-on-hover btn me-2 py-3 mt-md-2 text-black" href="#">Documentation</a>
+                <a class="custom-glow-on-hover btn me-2 py-3 mt-md-2 text-black" href="{% url 'doc' %}">Documentation</a>
+                <button id="theme-toggle-button-info" class="custom-glow-on-hover btn me-2 py-3 mt-md-2 text-black">Светлая тема</button>
             </nav>
         </div>
 
@@ -32,6 +33,43 @@
     <h1>About the Creator</h1>
     <p><strong>Name:</strong> {{ creator_info.name }}</p>
     <p><strong>Bio:</strong> {{ creator_info.bio }}</p>
+
+    <script>
+    const savedTheme = localStorage.getItem('theme');
+    const themeToggleButton = document.getElementById('theme-toggle-button-info');
+    const rootElement = document.documentElement;
+
+    if (savedTheme) {
+        rootElement.classList.add(savedTheme);
+        if (savedTheme === 'light-theme') {
+            themeToggleButton.innerText = 'Светлая тема';
+            document.body.style.backgroundColor = '#fff';
+            document.body.style.color = '#000';
+        } else {
+            themeToggleButton.innerText = 'Темная тема';
+            document.body.style.backgroundColor = '#000';
+            document.body.style.color = '#fff';
+        }
+    }
+
+    themeToggleButton.addEventListener('click', () => {
+        if (rootElement.classList.contains('light-theme')) {
+            rootElement.classList.remove('light-theme');
+            rootElement.classList.add('dark-theme');
+            themeToggleButton.innerText = 'Темная тема';
+            document.body.style.backgroundColor = '#000';
+            document.body.style.color = '#fff';
+            localStorage.setItem('theme', 'dark-theme');
+        } else {
+            rootElement.classList.remove('dark-theme');
+            rootElement.classList.add('light-theme');
+            themeToggleButton.innerText = 'Светлая тема';
+            document.body.style.backgroundColor = '#fff';
+            document.body.style.color = '#000';
+            localStorage.setItem('theme', 'light-theme');
+        }
+    });
+</script>
 </body>
 </html>
 
