@@ -25,13 +25,20 @@
         <div class="row">
             <div class="col-5 offset-1">
                 <h1>Погода в вашем городе</h1>
-                <form action="" method="post">
+                <form action="" method="post" novalidate>
                     {% csrf_token %}
                     <label for="city_name">Город</label>
                     {{ form.name }}
                     <input type="submit" name="send" value="Узнать" class="mt-2 custom-glow-on-hover btn btn-black" style="background-color: #f0f8ff; border-color: #87ceeb; color: #000;" onmouseover="this.className += ' glow-on-hover';" onmouseout="this.classList.remove('glow-on-hover');">
                 </form>
+
+                {% if error_message %}
+                <div class="alert alert-danger mt-2">
+                    {{ error_message }}
+                </div>
+                {% endif %}
             </div>
+
             <div class="col-4 offset-1">
                 <h1>Информация</h1>
                 <div class="row">
