@@ -52,7 +52,7 @@ def index(request):
     context = {
         'all_city_info': all_cities_names,
         'form': form,
-        'error_message': error_message,  # Передаем сообщение об ошибке в контекст
+        'error_message': error_message, 
     }
 
     return render(request, 'weather/index.html', context)
